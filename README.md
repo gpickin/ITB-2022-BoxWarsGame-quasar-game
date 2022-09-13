@@ -1,6 +1,14 @@
-# Dev Feud Game (quasar-game)
+# ITB-2022 BoxWars Game
 
-Dev Feud Single Player Game
+This repo is part of a presentation by Gavin Pickin at ITB 2022
+
+For the slides and all the code, please visit the link below.
+
+https://github.com/gpickin/ITB-2022-BoxWarsGame-presentation
+
+# VueJS Game UI (quasar-game)
+
+Single Player Game
 
 ## Install the dependencies
 
