@@ -23,7 +23,7 @@
 					color="white"
 					label="Start a New Game"
 					class="bg-green"
-					@click.native="$router.push('/')"
+					@click="startNewGame()"
 				/>
 			</div>
 			<div class="text-h6 text-black q-py-sm">
@@ -82,11 +82,13 @@
 		data() {
 			return {
 				name: "",
+				email: "",
 				questions: [],
 				currentQuestion: 0,
 				display: false,
 				showVotes: false,
 				currentScore: 0,
+				numberOfQuestions: 5,
 			};
 		},
 		computed: {
@@ -98,13 +100,26 @@
 				}
 			},
 			isGameOver() {
-				return this.currentQuestion == 4 && this.showVotes;
+				return (
+					this.currentQuestion == this.numberOfQuestions - 1 &&
+					this.showVotes
+				);
 			},
 		},
 		mounted() {
 			this.getQuestions();
+			this.$nextTick(() => {
+				this.name = this.$route.query.name;
+				this.email = this.$route.query.email;
+			});
 		},
 		methods: {
+			startNewGame: function () {
+				this.$router.push({
+					path: "/leaderboard",
+					query: { name: this.name, email: this.email },
+				});
+			},
 			selectAnswer(answer) {
 				if (!this.showVotes) {
 					this.getCurrentQuestion.answers.sort(function (a, b) {
@@ -157,6 +172,45 @@
 							timeout: 0,
 							actions: [{ label: "Dismiss", color: "white" }],
 						});
+						axiosInstance
+							.post(`topscores`, {
+								userName: this.$route.query.name,
+								email: this.$route.query.email,
+								score: this.currentScore,
+							})
+							.then(({ data }) => {
+								// updating pagination to reflect in the UI
+								if (data.error) {
+									this.$q.notify({
+										color: "negatvie",
+										textColor: "white",
+										icon: "people",
+										position: "center",
+										message: "Error Submitting Score",
+										timeout: 0,
+										actions: [
+											{ label: "Dismiss", color: "white" },
+										],
+									});
+								} else {
+									this.$q.notify({
+										color: "positive",
+										textColor: "white",
+										icon: "people",
+										position: "center",
+										message: "Score Submitted!",
+										timeout: 2000,
+									});
+								}
+							})
+							.catch((error) => {
+								// there's an error... do SOMETHING
+								console.log(error);
+								alert("Error loading Questions");
+								this.$router.push({
+									path: "/",
+								});
+							});
 					}
 				}
 			},
