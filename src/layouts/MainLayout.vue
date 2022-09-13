@@ -35,7 +35,7 @@
 					>
 						<router-view />
 
-						<div class="q-pa-md">
+						<div class="q-pa-md bg-white text-center text-bold">
 							<p>
 								This Game uses Survey Questions from
 								<a href="https://teratech.com/">TeraTech's</a>
