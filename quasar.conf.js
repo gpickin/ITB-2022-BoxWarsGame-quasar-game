@@ -21,7 +21,8 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v1.quasar.dev/quasar-cli/boot-files
-    boot: ["axios"],
+    boot: ["axios", "vuelidate"],
+
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ["app.scss"],
@@ -45,16 +46,11 @@ module.exports = function (ctx) {
       env: ctx.dev
         ? {
             environment: "dev",
-            API: "http://127.0.0.1:54006/api/v1/",
-          }
-        : process.env.BUILDTYPE == "prod"
-        ? {
-            environment: "prod",
-            API: "http://swarm1.cloudgq.com:8004/api/v1",
+            API: "http://127.0.0.1:54001/api/v1/",
           }
         : {
-            environment: "stg",
-            API: "http://swarm1.cloudgq.com:8004/api/v1",
+            environment: "prod",
+            API: "http://swarm1.cloudgq.com:8401/api/v1",
           },
       vueRouterMode: "hash", // available values: 'hash', 'history'
 
@@ -86,7 +82,7 @@ module.exports = function (ctx) {
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 8081,
+      port: 54003,
       open: true, // opens browser window automatically
     },
 
