@@ -9,6 +9,11 @@ const routes = [
     component: () => import("layouts/GameLayout.vue"),
     children: [{ path: "", component: () => import("pages/Game.vue") }],
   },
+  {
+    path: "/leaderboard",
+    component: () => import("layouts/GameLayout.vue"),
+    children: [{ path: "", component: () => import("pages/Leaderboard.vue") }],
+  },
 
   // Always leave this as last one,
   // but you can also remove it
